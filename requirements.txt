@@ -1,0 +1,8 @@
+click<=8.0.4
+pycaret==2.3.10
+streamlit==1.8.0
+numpy==1.18.5
+numba ==0.54.1
+plotly==5.6.0
+pydeck==0.7.1
+llvmlite==0.37.0
