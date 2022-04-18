@@ -2,10 +2,13 @@
 # Build with
 [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/downloads/release/python-380/)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
 ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![Streamlit](https://img.shields.io/static/v1?style=for-the-badge&message=Streamlit&color=FF4B4B&logo=Streamlit&logoColor=FFFFFF&label=)
-[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/hitesh-chaudhari-0259ba14a_project-collaboration-content-activity-6921523549367095296-iEiW?utm_source=linkedin_share&utm_medium=member_desktop_web)
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/hitesh-chaudhari-0259ba14a_data-india-cloud-activity-6921765376657641472-2Zyd?utm_source=linkedin_share&utm_medium=member_desktop_web)
 
 # AQI(Air Quality Index) Analysis ,Visualization and Forecasting.
 
@@ -59,7 +62,7 @@ The range of 24hr average of concentration of a individua particulate, colors as
 
 ![Screenshot](images/concentration_range.JPG)
 
-The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by the above mention guidelines are shown i this [notebook](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_history_data_processed.ipynb)
+The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by the above mention guidelines are shown i this [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_history_data_processed.ipynb)
 
 ## AQI Forecasting
 
@@ -69,35 +72,10 @@ experiment cycle and makes you more productive.
 You can get more information about PyCaret[here.](https://pycaret.org/)
 So by using PyCaret Forecasting Algorithm, we made individual models for each station(total 153 ML models) which are loaded dynamically and gives the respective station forecasting for next 7 days.
 
+Code for Forecasting model
 ```python
 from pycaret.regression import *
 
-data = df.groupby(['City','Date']).mean().reset_index()
-data['Date'] = pd.to_datetime(data['Date'])
-data['month'] = [i.month for i in data['Date']]
-data['year'] = [i.year for i in data['Date']]
-data['day_of_week'] = [i.dayofweek for i in data['Date']]
-data['day_of_year'] = [i.dayofyear for i in data['Date']]
-
-cities = data['City'].unique().tolist()
-
-data=data.drop([ 'PM25', 'PM10', 'CO', 'NO2', 'NH3', 'O3', 'SO2'],axis=1)
-data.set_index('Date',inplace=True)
-
-dates = pd.date_range(start='2020-11-28', end = '2022-02-09', freq = 'D')
-ma_df = pd.DataFrame()
-ma_df['Date'] = dates
-ma_df.set_index('Date',inplace=True)
-
-
-for i in cities:
-  subset = data[data['City'] == i]
-  subset[f'{i}_MA'] = subset['AQI'].rolling(30).mean()
-  subset.rename(columns = {'AQI': f'{i}_AQI'}, inplace = True)
-  subset.drop(columns=['City','month','year','day_of_week','day_of_year'],inplace=True)
-  ma_df = pd.merge(ma_df, subset, left_index=True, right_index=True)
-  
-  
 all_ts = data['City'].unique()
 all_results = []
 final_model = {}
@@ -123,12 +101,38 @@ for i in all_ts:
     final_model[i] = f
     
     # save transformation pipeline and model as pickle file 
-    save_model(f, model_name='trained_models/' + str(i), verbose=False)
-
+    save_model(f, model_name='trained_models/' + str(i), verbose=False
 ```
+The Data Processing for Forecasting modeling and saving the individual station model is shown in this [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/PyCaret_timeseries_forecasting.ipynb)
 
+The models are than loaded dynamically for forecasting of AQI for each individual station.
 
+# Flow of Application
+### Selection of Input
+The app assists in selection of input Staion and Date for which you wnat to see the AQI Analysis ,Visualization and Forecasting.
+![Screenshot](images/Intro.JPG)
 
+### AQI related information and Forecasting
+ The app shows a info card that shows AQI, Air Quality, Particulate concentrations, and syggestions according to the Air quality. It also shows the Daily hourly analysis of AQI and Forecasting for the next seven days.
+![Screenshot](images/img_1.JPG)
 
+### Top 10 Cities by AQI and Past 30 Days Analysis
+ The app shows a info card that shows top 10 cities Acoording to the AQI on a particular seleted date. It also shows the past 30 days analysis of AQI and other particultes such as PM2.5, PM10, NO2, SO2, CO, O3.
+![Screenshot](images/img_2.JPG)
+
+### All over India AQI
+We have also shown an interactive Map of India which shows data of all 153 stations . 
+![Screenshot](images/img_3.JPG)
+
+ # Collaboration 
+ This project is collaborative work of:-
+ 
+#### Hitesh Chaudhari
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hitesh-chaudhari-0259ba14a/)
+[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/hitman-dev)
+ 
+#### Siddhant Mishra
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siddhant-mishra-02aa50110/)
+[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/0NE-C0DEMAN)
 
 
