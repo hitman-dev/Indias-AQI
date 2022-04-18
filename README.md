@@ -13,17 +13,12 @@ A web App deployed on HEROKU CLOUD/Strealit CLoud ,that Analyse & visualize the 
 
 ![Screenshot](images/Intro.JPG)
 
-<!-- blank line -->
-<figure class="video_container">
-  <video controls="true" allowfullscreen="true" poster="images/Intro.JPG">
-    <source src="https://github.com/hitman-dev/Indias-AQI/blob/master/images/AQI_ogc.mp4" type="video/mp4">
 
 
-  </video>
-</figure>
-<!-- blank line -->
+https://user-images.githubusercontent.com/72800256/163836662-ac229c24-bf3c-414f-837a-fb104be99958.mp4
 
-![caption](images/AQI_ogc.mp4)
+
+
 You can try out this app [here.](https://share.streamlit.io/hitman-dev/indias-aqi/app.py)
 
 ### What is AQI & how is it calculated ?
