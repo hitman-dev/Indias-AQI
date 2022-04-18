@@ -17,7 +17,7 @@ https://user-images.githubusercontent.com/72800256/163836662-ac229c24-bf3c-414f-
 
 You can try out this app [here.](https://share.streamlit.io/hitman-dev/indias-aqi/app.py)
 
-### What is AQI & how is it calculated ?
+## What is AQI & how is it calculated ?
 
 AQI is defined as an overall scheme that transforms weighted values of individual air pollution
 related parameters (SO2, CO, visibility, etc.) into a single number or set of numbers. The Air Quality
@@ -33,21 +33,99 @@ Benzo(a)pyrene and NH 3, if monitored, use manual systems. To get an updated AQI
 intervals, ideally eight parameters (PM 10, PM 2.5, NO2, SO2, CO, O3, NH3, and Pb) for which,
 short-term standards are prescribed should, be measured on a continuous basis.
 
-### Project overview
-AQI(Air Quality Index) Analysis ,Visualization and Forecasting.
+## Project overview
 In this project we have collected data from various sources like kaggle and API such as WAQI and OPENWEATHERMAP, performed EDA on the data and stored it on GitHub, then apply Forecasting model.
 
-### API Used
+## API Used
 
 Below are the links of API's used to collect AQI related information
 
 - WAQI Api to collect location co-ordinates of the AQI monitoring stations in India.
+  - Get Active stations [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/get_active_stations.ipynb)
   - API link :- 'https://aqicn.org/data-platform/token/'
 
-- OpenWeathermap API to get concentration of the particulates from the 153 AQI monitoring stations in India based on the location co-ordinates gathered from WAQI API. 
+- OpenWeathermap API to get concentration of the particulates from the 153 AQI monitoring stations in India based on the location co-ordinates gathered from WAQI API.
+  - Get concentration of particulates from active stations [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_dataCollection.ipynb) 
   - API link :- 'https://openweathermap.org/api/air-pollution'
+ 
+## Calculating AQI 
+
+AQI is calculated with the help of [Guidelines](https://app.cpcbccr.com/ccr_docs/How_AQI_Calculated.pdf) given by [CPCB](https://cpcb.nic.in/index.php)(Central Pollution Contrl Board)
+AQI bucketing is used to understand the air quality for a region which is based on the values of AQI. The range of AQI, colors assigned and its corresponding effects are assigned as per the CPCB guidelines and are as follows.
+
+![Screenshot](images/AQI_Range.JPG)
+
+The range of 24hr average of concentration of a individua particulate, colors assigned and its corresponding effects are also specified as per the CPCB guidelines and are as follows.
+
+![Screenshot](images/concentration_range.JPG)
+
+The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by the above mention guidelines are shown i this [notebook](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_history_data_processed.ipynb)
+
+## AQI Forecasting
+
+For forecasting we have used various algorithms and auto ML libraries but the best out was given by Pycaret auto ML library.
+PyCaret is an Auto-ML library used for the building machine learning models. PyCaret is an open-source, low-code machine learning library in Python that automates machine learning workflows.It is an end-to-end machine learning and model management tool that exponentially speeds up the
+experiment cycle and makes you more productive.
+You can get more information about PyCaret[here.](https://pycaret.org/)
+So by using PyCaret Forecasting Algorithm, we made individual models for each station(total 153 ML models) which are loaded dynamically and gives the respective station forecasting for next 7 days.
+
+```python
+from pycaret.regression import *
+
+data = df.groupby(['City','Date']).mean().reset_index()
+data['Date'] = pd.to_datetime(data['Date'])
+data['month'] = [i.month for i in data['Date']]
+data['year'] = [i.year for i in data['Date']]
+data['day_of_week'] = [i.dayofweek for i in data['Date']]
+data['day_of_year'] = [i.dayofyear for i in data['Date']]
+
+cities = data['City'].unique().tolist()
+
+data=data.drop([ 'PM25', 'PM10', 'CO', 'NO2', 'NH3', 'O3', 'SO2'],axis=1)
+data.set_index('Date',inplace=True)
+
+dates = pd.date_range(start='2020-11-28', end = '2022-02-09', freq = 'D')
+ma_df = pd.DataFrame()
+ma_df['Date'] = dates
+ma_df.set_index('Date',inplace=True)
 
 
+for i in cities:
+  subset = data[data['City'] == i]
+  subset[f'{i}_MA'] = subset['AQI'].rolling(30).mean()
+  subset.rename(columns = {'AQI': f'{i}_AQI'}, inplace = True)
+  subset.drop(columns=['City','month','year','day_of_week','day_of_year'],inplace=True)
+  ma_df = pd.merge(ma_df, subset, left_index=True, right_index=True)
+  
+  
+all_ts = data['City'].unique()
+all_results = []
+final_model = {}
+
+for i in all_ts:
+    df_subset = data[data['City'] == i]
+    # initialize setup from pycaret.regression
+    s = setup(df_subset, target = 'AQI', train_size = 0.95, transform_target = True, remove_outliers = True, data_split_shuffle = False,
+              fold_strategy = 'timeseries', fold = 5, ignore_features = ['City'], numeric_features = ['day_of_year', 'year'],
+              categorical_features = ['month', 'day_of_week'], silent = True, verbose = False, session_id = 2022)
+    # compare all models and select best one based on MAE
+    best_model = compare_models(sort = 'MAE', verbose=True)
+    
+    # capture the compare result grid and store best model in list
+    p = pull().iloc[0:1]
+    p['City'] = str(i)
+    all_results.append(p)
+    
+    # finalize model i.e. fit on entire data including test set
+    f = finalize_model(best_model)
+    
+    # attach final model to a dictionary
+    final_model[i] = f
+    
+    # save transformation pipeline and model as pickle file 
+    save_model(f, model_name='trained_models/' + str(i), verbose=False)
+
+```
 
 
 
