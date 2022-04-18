@@ -11,6 +11,7 @@
 
 A web App deployed on HEROKU CLOUD/Strealit CLoud ,that Analyse & visualize the Air Quality Data collected on hourly basis from 153 stations in india and than Forecast the AQI(Air Quality Index) for next 7 days, for every individual station.
 
+Watch a short App flow video here 👇.
 https://user-images.githubusercontent.com/72800256/163836662-ac229c24-bf3c-414f-837a-fb104be99958.mp4
 
 You can try out this app [here.](https://share.streamlit.io/hitman-dev/indias-aqi/app.py)
@@ -30,4 +31,25 @@ continuous basis at many air quality stations (including NH 3 at some stations),
 Benzo(a)pyrene and NH 3, if monitored, use manual systems. To get an updated AQI at short time
 intervals, ideally eight parameters (PM 10, PM 2.5, NO2, SO2, CO, O3, NH3, and Pb) for which,
 short-term standards are prescribed should, be measured on a continuous basis.
+
+### Project overview
+AQI(Air Quality Index) Analysis ,Visualization and Forecasting.
+In this project we have collected data from various sources like kaggle and API such as WAQI and OPENWEATHERMAP, performed EDA on the data and stored it on GitHub, then apply Forecasting model.
+
+### API Used
+
+Below are the links of API's used to collect AQI related information
+
+- WAQI Api to collect location co-ordinates of the AQI monitoring stations in India.
+API link :- 'https://aqicn.org/data-platform/token/'
+
+- OpenWeathermap API to get concentration of the particulates from the 153 AQI monitoring stations in India based on the location co-ordinates gathered from WAQI API. 
+Book dataset :- 'https://openweathermap.org/api/air-pollution'
+
+
+
+
+
+
+
 
