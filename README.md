@@ -105,7 +105,7 @@ for i in all_ts:
 ```
 The Data Processing for Forecasting modeling and saving the individual station model is shown in this [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/PyCaret_timeseries_forecasting.ipynb)
 
-The models are than loaded dynamically for forecasting of AQI for each individual station.
+The models are then loaded dynamically for forecasting of AQI for each individual station.
 
 # Flow of Application
 ### Selection of Input
