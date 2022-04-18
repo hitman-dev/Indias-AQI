@@ -7,7 +7,7 @@ import pydeck as pdk
 from pydeck import View
 from pycaret.regression import load_model, predict_model
 
-# streamlit run C:/Users/Siddhant/PycharmProjects/Projects/aqi_streamlit/app.py --server.address=127.0.0.1
+# streamlit run app.py --server.address=127.0.0.1
 
 st.set_page_config(layout="wide")
 
