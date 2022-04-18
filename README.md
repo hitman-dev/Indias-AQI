@@ -12,6 +12,7 @@
 A web App deployed on HEROKU CLOUD/Strealit CLoud ,that Analyse & visualize the Air Quality Data collected on hourly basis from 153 stations in india and than Forecast the AQI(Air Quality Index) for next 7 days, for every individual station.
 
 Watch a short App flow video here 👇.
+
 https://user-images.githubusercontent.com/72800256/163836662-ac229c24-bf3c-414f-837a-fb104be99958.mp4
 
 You can try out this app [here.](https://share.streamlit.io/hitman-dev/indias-aqi/app.py)
