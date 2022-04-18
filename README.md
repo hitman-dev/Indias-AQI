@@ -16,7 +16,7 @@ A web App deployed on HEROKU CLOUD/Strealit CLoud ,that Analyse & visualize the 
 <!-- blank line -->
 <figure class="video_container">
   <video controls="true" allowfullscreen="true" poster="images/Intro.JPG">
-    <source src="images/AQI_ogc.mp4" type="video/mp4">
+    <source src="https://github.com/hitman-dev/Indias-AQI/blob/master/images/AQI_ogc.mp4" type="video/mp4">
   </video>
 </figure>
 <!-- blank line -->
