@@ -45,7 +45,7 @@ Below are the links of API's used to collect AQI related information
   - API link :- 'https://aqicn.org/data-platform/token/'
 
 - OpenWeathermap API to get concentration of the particulates from the 153 AQI monitoring stations in India based on the location co-ordinates gathered from WAQI API. 
-  - Book dataset :- 'https://openweathermap.org/api/air-pollution'
+  - API link :- 'https://openweathermap.org/api/air-pollution'
 
 
 
