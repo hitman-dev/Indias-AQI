@@ -69,7 +69,7 @@ The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by th
 For forecasting we have used various algorithms and auto ML libraries but the best out was given by Pycaret auto ML library.
 PyCaret is an Auto-ML library used for the building machine learning models. PyCaret is an open-source, low-code machine learning library in Python that automates machine learning workflows.It is an end-to-end machine learning and model management tool that exponentially speeds up the
 experiment cycle and makes you more productive.
-You can get more information about PyCaret[here.](https://pycaret.org/)
+You can get more information about PyCaret [here.](https://pycaret.org/)
 So by using PyCaret Forecasting Algorithm, we made individual models for each station(total 153 ML models) which are loaded dynamically and gives the respective station forecasting for next 7 days.
 
 Code for Forecasting model
