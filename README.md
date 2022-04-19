@@ -62,7 +62,7 @@ The range of 24hr average of concentration of a individua particulate, colors as
 
 ![Screenshot](images/concentration_range.JPG)
 
-The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by the above mention guidelines are shown i this [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_history_data_processed.ipynb)
+The Exploratory Data Analysis(EDA) and calculation of the AQI as specified by the above mention guidelines is shown in this [notebook.](https://github.com/hitman-dev/Indias-AQI/blob/master/notebooks/2020-2022_history_data_processed.ipynb)
 
 ## AQI Forecasting
 
